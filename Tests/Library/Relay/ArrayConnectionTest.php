@@ -54,5 +54,15 @@ class ArrayConnectionTest extends \PHPUnit_Framework_TestCase
                 'hasNextPage'     => true
             ]
         ], ArrayConnection::connectionFromArray($data, ['first' => 2, 'last' => 4]));
+
+        $this->assertEquals([
+            'edges'    => array_slice($edges, 2, 2),
+            'pageInfo' => [
+                'startCursor'     => $edges[2]['cursor'],
+                'endCursor'       => $edges[3]['cursor'],
+                'hasPreviousPage' => false,
+                'hasNextPage'     => true
+            ]
+        ], ArrayConnection::connectionFromArray($data, ['first' => 2, 'after' => ArrayConnection::offsetToCursor(1)]));
     }
 }
